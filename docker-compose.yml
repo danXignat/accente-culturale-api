@@ -1,0 +1,14 @@
+services:
+  fastapi-app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount SQLite database directory to persist data
+      - ./data:/app/data
+      # Optional: mount source code for development
+      - .:/app
+    environment:
+      - DATABASE_URL=sqlite:///data/db.sqlite
+    # Restart policy
+    restart: unless-stopped
