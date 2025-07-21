@@ -2,17 +2,24 @@
 from pydantic_settings import BaseSettings
 from typing import Optional
 
+if os.getenv("ENVIRONMENT") != "production":
+    from dotenv import load_dotenv
+    load_dotenv()
+
 class Settings(BaseSettings):
     app_name: str = "Accente-Culturale-API"
 
-    database_url: str = "sqlite:///./data/db.sqlite"
-    
-    JWT_SECRET_KEY: str = "7d9ae0481a5018ca14ba532b84de373a"
+    database_url: str = os.getenv("DATABASE_URL", "sqlite:///./data/db.sqlite")
 
-    ADMIN_USERNAME: str = "danignat"
-    ADMIN_PASSWORD: str = "$2b$12$EMScNo5n3PCCrA0jpzEBJOypJ/7KuQ7aT/QvoJG8m8a4NI2mAvY/u"
+    JWT_SECRET_KEY: str 
+    ADMIN_USERNAME: str 
+    ADMIN_PASSWORD: str 
+    ENVIRONMENT: str = "development"
+
+    port: int = int(os.getenv("PORT", 8000))
 
     class Config:
         env_file = ".env"
+        case_sensitive = False
 
 settings = Settings()

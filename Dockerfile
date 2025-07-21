@@ -1,4 +1,4 @@
-# Use Python 3.11 slim image
+# Use Python 3.12 slim image
 FROM python:3.12-slim
 
 # Set working directory
@@ -18,8 +18,12 @@ RUN pip install -r requirements.txt
 # Copy application code
 COPY . .
 
-# Create directory for SQLite database
-RUN mkdir -p /app/data
+# Create directory for SQLite database with proper permissions
+RUN mkdir -p /app/data && chmod 755 /app/data
+
+# Create a non-root user for security
+RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+USER appuser
 
 # Expose port
 EXPOSE 8000

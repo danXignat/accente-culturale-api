@@ -4,3 +4,4 @@ sqlmodel
 pydantic-settings
 PyJWT
 bcrypt
+python-dotenv
